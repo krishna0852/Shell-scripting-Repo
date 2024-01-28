@@ -14,7 +14,7 @@ logfile="AEK-installation-on-$getdate.log"
 touch $logfile
 
 awscli="https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
-eksctl=""https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp"
+eksctl="https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" 
 kubectl_version=1.27.9
 kubectl="https://s3.us-west-2.amazonaws.com/amazon-eks/$kubectl_version/2024-01-04/bin/linux/amd64/kubectl"
 
@@ -64,7 +64,7 @@ validateCmndStatus $? " version $aws_cli_version is "
 
 echo "awscli successfully installed, proceeding to install eksctl"
 
-curl --silent --location $eksctl >> $logfile
+curl --silent --location $eksctl | tar xz -C /tmp >> $logfile
 
 validateCmndStatus $? "installing latest version of eksctl using curl is"
 
