@@ -7,7 +7,7 @@ if [ $getid -ne 0 ];
   exit 1
 fi 
 
-getdate=$(date + %F)
+getdate=$(date +%F)
 
 logfile="AEK-installation-on-$getdate.log"
 
