@@ -4,6 +4,7 @@ getid=$(id -u)
 if [ $getid -ne 0 ];
   then
   echo "please run the script with root privileages"
+  exit 1
 fi 
 
 getdate=$(date + %F)
