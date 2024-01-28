@@ -6,6 +6,12 @@ if [ $getid -ne 0 ];
   echo "please run the script with root privileages"
 fi 
 
+getdate=$(date + %F)
+
+logfile="AEK-installation-on-$getdate.log"
+
+touch $logfile
+
 awscli="https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
 eksctl=""https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp"
 kubectl_version=1.27.9
@@ -23,29 +29,29 @@ fi
 
 }
 
-apt-get update -y 
+apt-get update -y >> $logfile
 
 validateCmndStatus $? "updating packages is "
 
 echo "installing unzip"
 
-apt-get install unzip -y 
+apt-get install unzip -y  >> $logfile
 
 validateCmndStatus $? "installing unzip is "
 
 echo "installing aws cli"
 
-curl $awscli -o "awscliv2.zip"
+curl $awscli -o "awscliv2.zip" >> $logfile
 
 validateCmndStatus $? "importing aws cli file using curl"
 
-unzip awscliv2.zip
+unzip awscliv2.zip  >> $logfile
 
 validateCmndStatus $? "unzipping awscli is" 
 
 echo "install in the newly unzipped aws directory. By default, the files are all installed to /usr/local/aws-cli, and a symbolic link is created in /usr/local/bin"
 
- ./aws/install
+ ./aws/install  >> $logfile
 
 validateCmndStatus $? "creating symbolic link is "
 
@@ -57,13 +63,13 @@ validateCmndStatus $? " version $aws_cli_version is "
 
 echo "awscli successfully installed, proceeding to install eksctl"
 
-curl --silent --location $eksctl
+curl --silent --location $eksctl >> $logfile
 
 validateCmndStatus $? "installing latest version of eksctl using curl is"
 
 echo "Move the extracted binary to /usr/local/bin."
 
-mv /tmp/eksctl /usr/local/bin
+mv /tmp/eksctl /usr/local/bin 
 
 validateCmndStatus $? "extracting to binary to bin is "
 
@@ -75,7 +81,7 @@ validateCmndStatus $? "version $eksctl_version is "
 
 echo "eksctl installed successfully, proceeding to install kubectl with $kubectl_version "
 
-curl -O $kubectl
+curl -O $kubectl >> $logfile
 
 validateCmndStatus $? "installing kubectl binaries is "
 
