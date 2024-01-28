@@ -42,17 +42,18 @@ validateCmndStatus $? "installing unzip is "
 
 echo "installing aws cli"
 
-curl $awscli -o "awscliv2.zip" >> $logfile
+curl $awscli -o "awscliv2.zip"  >> $logfile
 
 validateCmndStatus $? "importing aws cli file using curl"
-
-unzip awscliv2.zip  >> $logfile
+#-o to -over-write
+unzip -o awscliv2.zip >> $logfile
 
 validateCmndStatus $? "unzipping awscli is" 
 
 echo "install in the newly unzipped aws directory. By default, the files are all installed to /usr/local/aws-cli, and a symbolic link is created in /usr/local/bin"
-
- ./aws/install  >> $logfile
+ 
+ #--update 
+ ./aws/install --update >> $logfile
 
 validateCmndStatus $? "creating symbolic link is "
 
