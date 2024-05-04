@@ -1,4 +1,4 @@
-#!bin/bash
+#!/bin/bash
 
 checkUserIsRoot=$(id -u)
 installedDate=$(date +%F)
