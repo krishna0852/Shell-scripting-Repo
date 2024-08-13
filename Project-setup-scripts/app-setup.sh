@@ -14,6 +14,8 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
+echo "Executing Script ..."
+
 # Set up log file
 getdate=$(date +%F)
 logfile="Infratools-installation-${getdate}.log"
