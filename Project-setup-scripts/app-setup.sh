@@ -41,6 +41,8 @@ updatePackages() {
     validateCmndStatus "$?" "Updating package list"
 }
 
+updatePackages
+
 # Check if Java is already installed
 if ! java -version &>/dev/null; then
     echo "Installing Java..."
@@ -99,3 +101,10 @@ curl -sL "$AWSCLI_EKSCTL_KUBECTL_SCRIPT_FILE" | bash >> "${logfile}" 2>&1
 validateCmndStatus "$?" "Installing AWS CLI, eksctl, kubectl"
 
 echo "All installations complete. Check the log file for details: ${logfile}"
+
+
+# Setting up things for Jenkins agent
+
+# Creating an User  for jenkins agent 
+
+#adduser jenkins --gecos ""
