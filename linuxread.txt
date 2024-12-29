@@ -1,0 +1,285 @@
+grep teja filename ---it will check teja in given file and display and it's case sensitive, to ignore casesensitive we should use -i 
+
+
+grep -i teja filename  ==> ignoring casesensitive
+
+
+echo "https://github/krishnateja/test-repo/cut-command" | cut -d "/" -f1 ==> output: https: 
+
+awk -F "/" '{print $1F}' ==> same as cut but has more advantages and powerful
+
+IF YOU WANT TO GET THE LAST FRAGEMENT YOU CAN SIMPLY MENTION -NF  eg: echo "https://github/krishnateja/test-repo/cut-command" | awk -F "/" '{print $NF}' ==>output: cut-command 
+
+
+===================
+
+awk -F',' '$3 > 50 {print $0}' file.txt
+
+Explanation:
+The -F',' option tells awk to use a comma as the field delimiter.
+$3 > 50 means to filter rows where the value in the 3rd column is greater than 50.
+{print $0} prints the entire line when the condition is met.
+
+
+fileformat be like : 
+John,25,45
+Alice,30,55
+Bob,28,60
+Eve,22,40
+Charlie,35,70
+David,29,50
+==================
+
+
+head filename ==> it will print first 10 lines 
+
+tail filename ==> it will print last 10 lines 
+
+head -n 3 filename ==> it will print first 3 lines 
+tail -n 3 filename ==> it will print last 3 lines
+
+
+tail -f filename.log ==> to see the running log
+
+
+
+system logs: 
+/var/log/messages 
+
+ 
+ 
+:%d   ==> to delete all the content in a file in vim editor
+:1d ==> deletes first line
+
+
+:s/which-word/what-you-want  ---> replace the word where your cursor is and only first occurrence 
+
+:s/which-word/what-you-want/g ==> all occurences in that line 
+
+:3s/which-word/what-you-want/g ==> all occurences in 3rd line 
+
+:%s/which-word/what-you-want/g ==> all occurences in file 
+
+
+===linux Administration======================
+
+
+useradd teja ---creating a user teja 
+passwd teja ----> setting password for user teja
+
+groupadd devops  ===> creating group devops 
+
+every user have atleast one primary group and multiple secondary groups
+
+/etc/passwd ==> users info
+/etc/group ===> groups info
+
+G==SECONDSRY 
+g=primary
+
+
+
+
+
+create devops group and add ramesh to devops group
+
+groupadd devops 
+
+usermod -g devops ramesh   ===adding ramesh to devops group 
+
+
+
+rames primary ==devops 
+ramesh secondary === testing  
+
+
+
+
+usermod -aG testing ramesh  ===adding ramesh to testing group as secondary
+
+gpasswd -d ramesh testing ===> removing ramesh from testing group
+
+
+
+
+groupdel group-name ===> to delete group 
+userdel user-name ==> to delete user
+
+
+===chown===========  change ownership=============
+
+chown -R ramesh:ramesh foldername
+
+
+
+
+By default, linux os will not allow password authentication, it will only allow key based authentication.
+
+
+
+vi /etc/ssh/sshd_config    keep yes for password authentication  ==> restart sshd service ==> systemctl restart sshd
+
+
+
+======package management==============
+
+
+/etc/yum.repos.d/
+/etc/apt/source.list.d
+
+dnf list installed --it will show the list of packages 
+
+
+
+
+
+how can check cpuinfo, memoryinfo, os
+
+
+/proc/cpuinfo 
+/proc/meminfo
+/etc/os-release
+
+
+
+
+===============service management ==============
+
+
+service start, service stop, service restart, status check, enable, disable
+
+
+
+
+enable ==> by default enabled services will start automatically
+
+
+========================process management =====================
+
+
+ps 
+
+
+ps -ef ==list all the process 
+
+
+
+foreground and background process:
+
+foreground: blocks the screen, runs in foreground
+background: runs in background, you can do other works   eg: sleep 100 &
+
+
+to kill the process :  kill -process_id ===> kill -9
+
+
+
+
+================network management========
+
+ports check 
+
+netstat -lntp  ==it will tell what ports are open
+
+
+===============file system size =====
+
+df -h  ==> Reports the free and used space of file system
+
+du -h ==> this will display the size of the current directory and its contents in a human-readable format.
+
+==========memory size =========
+
+free -m
+
+
+
+=============================
+
+
+/etc/systemd/system    ==> here you can place all your service files
+
+extension===> .service
+
+
+
+================== node js -project set up ===========================
+
+
+
+sudo dnf module list nodejs    ==gives the list of versions
+
+sudo dnf module disable nodejs:18
+
+sudo dnf module enable nodejs:20
+
+dnf install nodejs -y
+
+sudo useradd expense
+
+
+
+
+
+
+====creating service ============
+
+vim /etc/systemd/system/backend.service
+
+
+[Unit]
+Description = Backend Service
+
+[Service]
+User=expense
+Environment=DB_HOST="<MYSQL-SERVER-IPADDRESS>"
+ExecStart=/bin/node /app/index.js
+SyslogIdentifier=backend
+
+[Install]
+WantedBy=multi-user.target
+
+
+==================================================Disk partitons ===============
+
+1) create an extra volume with size 15gb 
+2) attach to the ec2 instance 
+3) check the blocks using lsblk and see the attached voulme is able to visible or not 
+4) for the new disk use fdisk and create three partitions 3 X 5GB   ===> fdisk /dev/xvde(new-disk-name) and follow the instruction once you execute that fdisk command
+5) create filesystem on all the 3 drives using "mkfs.ext4"   ===> mkfs.ext4 /dev/xvde1, mkfs.ext4 /dev/xvde2, mkfs.ext4 /dev/xvde3
+6) create a three folders in root folder and name it as eg: 5gfold1, 5gfold2, 5gfolf3
+6) mount the 3 partitons to the 3 folders and put some files in it   ==> mount /dev/xvde1 /5gfolder1
+7) Edit /etc/fstab and mention the mounts there like below
+    filesystem          mountpath       
+	  /dev/xvde1         /5gfold1   defaults 0 0
+      /dev/xvde2         /5gfold2
+	  /dev/xvde3         /5gfold3
+
+
+========================
+logical volumes
+
+
+============
+networking troubleshoots 
+
+ping
+telnet 
+nslookup
+host
+route
+
+
+
+==========end of Linux ========================
+
+
+iam sessions
+
+
+networking in aws direct connect e.t.c
+
+
+
+
+
