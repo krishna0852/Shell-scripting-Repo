@@ -15,8 +15,10 @@ touch $logfile
 
 awscli="https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip"
 eksctl="https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" 
-kubectl_version=1.27.9
-kubectl="https://s3.us-west-2.amazonaws.com/amazon-eks/$kubectl_version/2024-01-04/bin/linux/amd64/kubectl"
+kubectl_version=1.31.3
+release_date=2024-12-12 #adding this variable newly as this date is changing for every version installation.
+#kubectl="https://s3.us-west-2.amazonaws.com/amazon-eks/$kubectl_version/2024-01-04/bin/linux/amd64/kubectl"
+kubectl="https://s3.us-west-2.amazonaws.com/amazon-eks/$kubectl_version/$release_date/bin/linux/amd64/kubectl"
 
 validateCmndStatus(){
 cmndsts=$1
